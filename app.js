@@ -1,9 +1,8 @@
-var express = require('express');
-var app = express();
 var Twitter = require('twitter');
 var mongoose = require('mongoose');
 var chalk = require('chalk');
 var RepliedToId = require('./models').RepliedToId;
+var _ = require('lodash');
 
 mongoose.connect(process.env.MONGODB_URI)
 
@@ -24,8 +23,9 @@ const replyToTweet = (statusId, username) => {
   })
   .then((doc) => {
     if (!doc) {
+      const message = "Your tweet's status ID is: " + statusId
       const postParams = {
-        status: '@' + username + ' Response v3',
+        status: '@' + username + ' ' + message,
         in_reply_to_status_id: statusId
       }
 
